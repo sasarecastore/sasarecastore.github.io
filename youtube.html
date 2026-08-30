@@ -35,6 +35,8 @@
     function message(text,type=''){status.textContent=text;status.className='status '+type}
     function responseValue(data){const item=Array.isArray(data)?data[0]:data;return {item,value:item?.result?.data?.json??item?.result?.data}}
     function valid(data){const {item,value}=responseValue(data);return !item?.error&&value?.ok===true}
+    const passedKey=new URLSearchParams(location.search).get('key');
+    if(passedKey){input.value=passedKey;window.setTimeout(()=>form.requestSubmit(),80)}
     form.addEventListener('submit',async event=>{event.preventDefault();const key=input.value.trim();if(!key)return;submit.disabled=true;area.classList.add('hidden');download.style.display='none';message('Verificando Key...');try{const response=await fetch(AUTH_URL,{method:'POST',headers:{'content-type':'application/json',accept:'application/json'},body:JSON.stringify({'0':{json:{keyValue:key,deviceId:deviceId()}}})});const data=await response.json().catch(()=>null);if(!response.ok||!valid(data))throw new Error('Key inválida, expirada ou não autorizada.');message('Key autorizada. O download está liberado.','ok');area.classList.remove('hidden');download.style.display='flex';download.href=CONFIG_URL;download.download='localConfig.json';download.onclick=()=>{message('Download iniciado.','ok')}}catch(error){message(error.message||'Não foi possível validar a Key.','error')}finally{submit.disabled=false}});
   </script>
 </body>
