@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YouTube — Acesso</title>
+  <style>
+    :root{color-scheme:dark;--red:#ff0033;--red2:#cc0029;--bg:#070707;--card:#111;--muted:#979797;--line:#292929}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 20%,#26000a 0,transparent 35%),radial-gradient(circle at 80% 80%,#180006 0,transparent 38%),var(--bg);font-family:Arial,Helvetica,sans-serif;color:#fff;padding:24px}
+    .shell{width:min(100%,430px)}.card{background:rgba(17,17,17,.96);border:1px solid #3a1018;border-radius:18px;padding:32px;box-shadow:0 25px 90px #000,0 0 35px rgba(255,0,51,.14)}
+    .brand{text-align:center;margin-bottom:28px}.yt{width:76px;height:54px;margin:auto;display:grid;place-items:center;background:var(--red);border-radius:16px;box-shadow:0 0 24px rgba(255,0,51,.35)}.yt svg{width:31px;fill:#fff}.brand h1{font-size:27px;letter-spacing:-.04em;margin:15px 0 5px}.brand p{color:var(--muted);font-size:12px;margin:0}
+    label{display:block;color:#c8c8c8;font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;margin:0 0 8px}input{width:100%;height:49px;background:#080808;border:1px solid var(--line);border-radius:8px;color:#fff;padding:0 14px;outline:0;font-size:14px;transition:.2s}input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,0,51,.12)}button,a.action{width:100%;min-height:46px;border:0;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;cursor:pointer;font-size:12px;font-weight:800;letter-spacing:.07em;transition:transform .15s,filter .15s;margin-top:12px}button{background:var(--red);color:#fff}button:hover,a.action:hover{filter:brightness(1.13)}button:active,a.action:active{transform:scale(.98)}button:disabled{opacity:.55;cursor:wait}.discord{background:#5865f2;color:#fff}.activate{background:#18a66f;color:#fff}.download{background:#fff;color:#111;display:none}.status{min-height:18px;text-align:center;margin:16px 0 0;color:var(--muted);font-size:12px;line-height:1.45}.status.ok{color:#65e6a3}.status.error{color:#ff7190}.divider{height:1px;background:var(--line);margin:24px 0}.note{color:#666;font-size:10px;line-height:1.5;text-align:center;margin:18px 0 0}.note b{color:#999}.hidden{display:none!important}
+    @media(max-width:430px){.card{padding:25px 20px}.brand{margin-bottom:24px}}
+  </style>
+</head>
+<body>
+  <main class="shell"><section class="card" aria-labelledby="title">
+    <div class="brand"><div class="yt" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg></div><h1 id="title">YouTube</h1><p>Acesso à configuração autorizada</p></div>
+    <form id="form"><label for="key">Sua Key</label><input id="key" name="key" autocomplete="off" spellcheck="false" placeholder="Digite sua Key" required><button id="submit" type="submit">VERIFICAR KEY</button></form>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+    <div id="downloadArea" class="hidden"><div class="divider"></div><button id="activate" class="action activate" type="button">ATIVAR</button><a id="download" class="action download" href="#">BAIXAR CONFIGURAÇÃO</a></div>
+    <a class="action discord" href="https://discord.gg/VqnRtxsPS" target="_blank" rel="noopener noreferrer">ABRIR DISCORD</a>
+    <p class="note"><b>Fluxo seguro:</b> a Key é validada pelo servidor atual. O arquivo só é disponibilizado depois da validação.</p>
+  </section></main>
+  <script>
+    const AUTH_URL = 'https://sasarinha-573kbfhm.manus.space/api/trpc/keys.validate?batch=1';
+    const CONFIG_URL = 'https://sasarecastore.github.io/localConfig.json';
+    const form = document.getElementById('form');
+    const input = document.getElementById('key');
+    const submit = document.getElementById('submit');
+    const status = document.getElementById('status');
+    const area = document.getElementById('downloadArea');
+    const download = document.getElementById('download');
+    const activateButton = document.getElementById('activate');
+    let preparedConfig = '';
+    const queryParams=new URLSearchParams(location.search);
+    const passedDevice=queryParams.get('device');
+    function deviceId(){if(passedDevice)return passedDevice;let id=localStorage.getItem('youtube-device-id');if(!id){id=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2))+Date.now();localStorage.setItem('youtube-device-id',id)}return id}
+    function message(text,type=''){status.textContent=text;status.className='status '+type}
+    function responseValue(data){const item=Array.isArray(data)?data[0]:data;return {item,value:item?.result?.data?.json??item?.result?.data}}
+    function valid(data){const {item,value}=responseValue(data);return !item?.error&&value?.ok===true}
+    const passedKey=queryParams.get('key');
+    const selectedFeatures=(queryParams.get('features')||'').split(',').filter(Boolean);
+    const featureNames={hs_rage:'HS Rage - Peito ao Topo',hs_pescoco:'HS Pescoço - Estável',hs_alto:'HS Alto - Topo da Cabeça',aimbot:'Aimbot Sync',aim_assist:'Assistência de Mira',esp:'ESP Bounding Box Safe'};
+    async function buildConfigDownload(){const response=await fetch(CONFIG_URL,{cache:'no-store'});if(!response.ok)throw new Error('Não foi possível preparar a configuração.');const config=await response.json();const wanted=new Set(selectedFeatures.map(id=>featureNames[id]).filter(Boolean));const activate=node=>{if(Array.isArray(node)){node.forEach(activate);return}if(!node||typeof node!=='object')return;if(typeof node.description==='string'&&wanted.has(node.description))node.status='on';Object.values(node).forEach(value=>{if(value&&typeof value==='object')activate(value)})};activate(config);return JSON.stringify(config,null,2)}
+    if(passedKey){input.value=passedKey.trim().toUpperCase();localStorage.setItem('sarinha-active-key',input.value);window.setTimeout(()=>form.requestSubmit(),80)}
+    activateButton.addEventListener('click',event=>{event.preventDefault();if(!preparedConfig)return;if(window.AndroidBridge){window.AndroidBridge.saveConfig(preparedConfig);message('Configuração ativada e salva em Downloads.','ok')}else{message('Configuração preparada para ativação.','ok')}});
+    form.addEventListener('submit',async event=>{event.preventDefault();const key=input.value.trim().toUpperCase();if(!key)return;localStorage.setItem('sarinha-active-key',key);submit.disabled=true;area.classList.add('hidden');download.style.display='none';message('Verificando Key...');try{const response=await fetch(AUTH_URL,{method:'POST',headers:{'content-type':'application/json',accept:'application/json'},body:JSON.stringify({'0':{json:{keyValue:key,deviceId:deviceId()}}})});const data=await response.json().catch(()=>null);if(!response.ok||!valid(data))throw new Error('Key inválida, expirada ou não autorizada.');const configJson=await buildConfigDownload();preparedConfig=configJson;activateButton.style.display='flex';message('Key autorizada. A configuração está pronta.','ok');area.classList.remove('hidden');download.style.display='flex';download.href='#';download.onclick=event=>{event.preventDefault();if(window.AndroidBridge){window.AndroidBridge.saveConfig(configJson);message('Download salvo em Downloads.','ok')}else{const blob=new Blob([configJson],{type:'application/json'});download.href=URL.createObjectURL(blob);download.download='localConfig.json';message('Download iniciado.','ok')}}}catch(error){message(error.message||'Não foi possível validar a Key.','error')}finally{submit.disabled=false}});
+  </script>
+</body>
+</html>
