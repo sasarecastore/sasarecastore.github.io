@@ -1,0 +1,60 @@
+{
+  "config_version": "1.0_BETA",
+  "auth_key": "ADMIN123",
+  "device_info": "Sarinha_Proxy_Mobile",
+  "functions": {
+    "hs_rage": {
+      "addr": "0x4C2A10", 
+      "val": "0",
+      "offset": 1,
+      "value": "2",
+      "status": "off",
+      "description": "HS Rage - Peito ao Topo"
+    },
+    "hs_neck": {
+      "addr": "0x4C2B20",
+      "val": "0",
+      "offset": 1,
+      "value": "2",
+      "status": "off",
+      "description": "HS Pescoço - Estável"
+    },
+    "hs_high": {
+      "addr": "0x4C2C30",
+      "val": "1",
+      "offset": 1,
+      "value": "2",
+      "status": "off",
+      "description": "HS Alto - Topo da Cabeça"
+    },
+    "aimbot": {
+      "addr": "0x4C2D40",
+      "val": "1",
+      "offset": 1,
+      "value": "2",
+      "status": "off",
+      "description": "Aimbot Sync"
+    },
+    "aim_assist": {
+      "addr": "0x4C2E50",
+      "val": "1",
+      "offset": 1,
+      "value": "2",
+      "status": "off",
+      "description": "Assistência de Mira"
+    },
+    "esp_box": {
+      "addr": "0x4C2F60",
+      "val": "0",
+      "offset": 1,
+      "value": "2",
+      "status": "off",
+      "description": "ESP Bounding Box Safe"
+    }
+  },
+  "security": {
+    "anti_ban": "enabled",
+    "sync_mode": "dynamic_offset",
+    "bypass_version": "v1.0"
+  }
+}
