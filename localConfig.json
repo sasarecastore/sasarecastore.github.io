@@ -1,60 +1,60 @@
 {
-  "config_version": "1.0_BETA",
-  "auth_key": "ADMIN123",
-  "device_info": "Sarinha_Proxy_Mobile",
-  "functions": {
+  "config_version": "2.0.6_Hitbox_Custom",
+
+  "settings": {
+    "hs_natural": {
+      "addr": "0x1A2B3C4",
+      "val": "0.8142",
+      "type": "float",
+      "desc": "Capa Natural - Rank/CS"
+    },
+    "hs_alto": {
+      "addr": "0x1A2B3C8",
+      "val": "0.9125",
+      "type": "float",
+      "desc": "Capa Topo da Cabeça"
+    },
+    "hs_pescoco": {
+      "addr": "0x1A2B3CC",
+      "val": "0.6731",
+      "type": "float",
+      "desc": "Capa Base do Pescoço"
+    },
     "hs_rage": {
-      "addr": "0x4C2A10", 
-      "val": "0",
-      "offset": 1,
-      "value": "2",
-      "status": "off",
-      "description": "HS Rage - Peito ao Topo"
+      "addr": "0x1A2B3D0",
+      "val": "1.1582",
+      "type": "float",
+      "desc": "Capa Forte (Risco)"
     },
-    "hs_neck": {
-      "addr": "0x4C2B20",
-      "val": "0",
-      "offset": 1,
-      "value": "2",
-      "status": "off",
-      "description": "HS Pescoço - Estável"
-    },
-    "hs_high": {
-      "addr": "0x4C2C30",
-      "val": "1",
-      "offset": 1,
-      "value": "2",
-      "status": "off",
-      "description": "HS Alto - Topo da Cabeça"
-    },
-    "aimbot": {
-      "addr": "0x4C2D40",
-      "val": "1",
-      "offset": 1,
-      "value": "2",
-      "status": "off",
-      "description": "Aimbot Sync"
+    "hs_peito": {
+      "addr": "0x1A2B3D4",
+      "val": "0.4219",
+      "type": "float",
+      "desc": "Capa no Peito (Low Profile)"
     },
     "aim_assist": {
-      "addr": "0x4C2E50",
-      "val": "1",
-      "offset": 1,
-      "value": "2",
-      "status": "off",
-      "description": "Assistência de Mira"
+      "addr": "0x5D6E7F8",
+      "val": "58.37",
+      "type": "float",
+      "desc": "Assistência de Mira Suave"
     },
-    "esp_box": {
-      "addr": "0x4C2F60",
-      "val": "0",
-      "offset": 1,
-      "value": "2",
-      "status": "off",
-      "description": "ESP Bounding Box Safe"
+    "no_recoil": {
+      "addr": "0x9A0B1C2",
+      "val": "0.128",
+      "type": "float",
+      "desc": "Estabilizador de Recuo"
+    },
+    "esp_distance": {
+      "addr": "0x3F4G5H6",
+      "val": "1",
+      "type": "int",
+      "desc": "Distância de Jogador"
+    },
+    "bypass_core": {
+      "addr": "0x7K8L9M0",
+      "val": "1",
+      "type": "int",
+      "desc": "Memory Shield Active"
     }
-  },
-  "security": {
-    "anti_ban": "enabled",
-    "sync_mode": "dynamic_offset",
-    "bypass_version": "v1.0"
   }
 }
